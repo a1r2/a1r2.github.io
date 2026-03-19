@@ -1,6 +1,9 @@
-# A1R2 Legal Documents
+# ABCPress LLC - Legal Documents
 
-Public hosting for privacy policies and terms of service for A1R2 mobile applications.
+Public hosting for privacy policies and terms of service for ABCPress LLC mobile applications.
+
+**Developer:** A1R2  
+**Owner:** ABCPress LLC
 
 ## 📱 Apps
 
@@ -65,9 +68,10 @@ https://a1r2.github.io/sea-grid-tactics/privacy-policy.html
 
 ## ⚖️ License
 
-All legal documents are © 2026 A1R2. All rights reserved.
+All legal documents are © 2026 ABCPress LLC. All rights reserved.
 
 ## 📧 Contact
 
 - **Email:** onairda.somar@gmail.com
 - **Developer:** A1R2
+- **Owner:** ABCPress LLC
