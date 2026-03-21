@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Submarine Radar - Strategic power-up for Sea Grid Tactics™. Locate the submarine quadrant and unlock 2-shot-per-turn mode.">
+    <title>Submarine Radar - Sea Grid Tactics™</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #1a1a1a;
+            background: linear-gradient(135deg, #0f2858 0%, #1e3a72 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            padding: 40px 20px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 300;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #ff6b35;
+        }
+
+        .content {
+            background: white;
+            border-radius: 16px;
+            padding: 50px 40px;
+            margin: 30px auto 60px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        h2 {
+            color: #1e3a72;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: #ff6b35;
+            border-radius: 2px;
+        }
+
+        h3 {
+            color: #1e3a72;
+            font-size: 1.4rem;
+            margin-top: 35px;
+            margin-bottom: 15px;
+        }
+
+        p {
+            color: #555;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #ff6b35 0%, #f7941d 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        .highlight-box h3 {
+            color: white;
+            margin-top: 0;
+        }
+
+        .highlight-box p {
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 4px solid #ff6b35;
+        }
+
+        .feature-card h4 {
+            color: #1e3a72;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p {
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        .steps {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 30px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .step:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-number {
+            background: #ff6b35;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-right: 20px;
+        }
+
+        .step-content h4 {
+            color: #1e3a72;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .step-content p {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 0;
+        }
+
+        .visual-demo {
+            background: linear-gradient(135deg, #1e3a72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            border-radius: 12px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        .grid-preview {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 40px);
+            grid-template-rows: repeat(5, 40px);
+            gap: 2px;
+            margin: 0 auto;
+        }
+
+        .cell {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+
+        .cell.highlight {
+            background: rgba(255, 107, 53, 0.8);
+            border: 2px solid #ff6b35;
+            box-shadow: 0 0 15px rgba(255, 107, 53, 0.6);
+        }
+
+        .quadrant-label {
+            font-size: 0.9rem;
+            margin-top: 10px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .cta-box {
+            background: #1e3a72;
+            color: white;
+            padding: 35px;
+            border-radius: 12px;
+            text-align: center;
+            margin: 40px 0 20px;
+        }
+
+        .cta-box h3 {
+            color: white;
+            margin-top: 0;
+            font-size: 1.6rem;
+        }
+
+        .cta-box p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.05rem;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 14px 35px;
+            background: #ff6b35;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: #f7941d;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        footer {
+            background: #0f2858;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #4a9eff;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 30px 25px;
+            }
+
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .grid {
+                grid-template-columns: repeat(5, 35px);
+                grid-template-rows: repeat(5, 35px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="back-link">← Back to Sea Grid Tactics™</a>
+            <h1>📡 Submarine Radar</h1>
+            <p class="subtitle">Your secret weapon when the sub is the last ship standing</p>
+        </div>
+    </header>
+
+    <div class="content container">
+        <h2>What Is Submarine Radar?</h2>
+        <p>
+            Submarine Radar is a <strong>strategic power-up</strong> that activates when your opponent's submarine is the only remaining ship. 
+            It's the ultimate tool for finishing the match quickly and decisively—but you'll need to use it wisely.
+        </p>
+
+        <div class="highlight-box">
+            <h3>💡 Why Radar Changes Everything</h3>
+            <p>
+                The submarine is the smallest, sneakiest ship—just 2 cells. When it's isolated, finding it can take 10-20+ shots of blind guessing. 
+                <strong>Radar cuts that time in half</strong> by revealing which quadrant the submarine is hiding in, then unlocking 
+                <strong>2 shots per turn</strong> for the rest of the match.
+            </p>
+        </div>
+
+        <h3>🎯 How It Works</h3>
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h4>Submarine Becomes Last Ship</h4>
+                    <p>When you've sunk all enemy ships except the submarine, the radar button appears in the targeting UI.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h4>Activate Radar (1 Credit)</h4>
+                    <p>Tap the radar button. The correct quadrant flashes orange 3 times, revealing where the submarine is hiding.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h4>2-Shot Mode Unlocked</h4>
+                    <p>For the rest of the match, you fire <strong>2 shots per turn</strong> instead of 1—doubling your search efficiency.</p>
+                </div>
+            </div>
+
+            <div class="step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <h4>Hunt and Win</h4>
+                    <p>Narrow your search to 25 cells (one quadrant). With 2 shots per turn, you'll find the sub 2× faster.</p>
+                </div>
+            </div>
+        </div>
+
+        <h3>🗺️ Visual Example: Quadrant Reveal</h3>
+        <div class="visual-demo">
+            <p style="margin-bottom: 15px;">The 10×10 grid is divided into 4 quadrants. Radar reveals one:</p>
+            <div class="grid-preview">
+                <div class="grid">
+                    <!-- Top-left quadrant (highlighted) -->
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <div class="cell highlight"></div>
+                    <!-- Bottom-right quadrant (not highlighted) -->
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                    <div class="cell"></div>
+                </div>
+                <p class="quadrant-label">🔥 Orange quadrant = Submarine is here (25 cells instead of 100)</p>
+            </div>
+        </div>
+
+        <h3>⚡ Why Players Love Radar</h3>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>🚀 Faster Wins</h4>
+                <p>Cut endgame time in half. No more endless blind guessing—finish strong.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4>🧠 Strategic Depth</h4>
+                <p>Deciding when to use radar (early vs. late) adds tactical decision-making.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4>😌 Reduces Frustration</h4>
+                <p>The sub endgame can feel like luck. Radar gives you control back.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4>🎯 Satisfying Payoff</h4>
+                <p>That orange flash + 2-shot mode feels like unlocking a superpower.</p>
+            </div>
+        </div>
+
+        <h3>💰 How to Get Radar Credits</h3>
+        <p>
+            Radar credits are <strong>consumable</strong>—you spend 1 credit each time you activate radar in a match. Here's how to stock up:
+        </p>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h4>🎁 Free Credits</h4>
+                <p>New players start with 3 free radar credits to try the feature risk-free.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4>🛒 Radar Pack</h4>
+                <p>Buy 10 credits for $0.99. Lasts ~10 matches where submarine is last ship.</p>
+            </div>
+
+            <div class="feature-card">
+                <h4>♾️ Unlimited Use</h4>
+                <p>Once activated in a match, 2-shot mode lasts until the game ends—no per-shot cost.</p>
+            </div>
+        </div>
+
+        <h3>🤔 Common Questions</h3>
+        <p><strong>Q: Can I use radar if the submarine isn't the last ship?</strong><br>
+        No—radar only activates when the submarine is isolated. This keeps it balanced.</p>
+
+        <p><strong>Q: Does my opponent know I used radar?</strong><br>
+        No—radar is your secret. They won't see the quadrant flash or know you have 2-shot mode.</p>
+
+        <p><strong>Q: What if I run out of credits mid-match?</strong><br>
+        You can still win without radar—it just takes longer. Buy more credits or finish with 1-shot mode.</p>
+
+        <p><strong>Q: Does 2-shot mode work with the 3-miss rule?</strong><br>
+        Yes! You still get 3 misses before your turn ends, but you fire 2 shots at a time. Double the firepower.</p>
+
+        <div class="cta-box">
+            <h3>Ready to Dominate the Endgame?</h3>
+            <p>Download Sea Grid Tactics™ and experience the strategic power of Submarine Radar.</p>
+            <a href="index.html" class="btn-primary">Back to Main Page</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 A1R2. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">Sea Grid Tactics™ is a trademark of A1R2.</p>
+        </div>
+    </footer>
+</body>
+</html>
