@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sea Grid Tactics™ - Classic naval combat reimagined for mobile. Local multiplayer battleship with strategic twists. Available on iOS.">
+    <meta name="description" content="Sea Grid Tactics™ - Classic naval combat reimagined for mobile. Local multiplayer battleship with strategic gameplay. Available on iOS.">
     <title>Sea Grid Tactics™ - Strategic Naval Combat for iOS</title>
     <style>
         * {
@@ -31,6 +31,15 @@
             padding: 60px 20px;
             text-align: center;
             color: white;
+        }
+
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
+            border-radius: 24px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+            display: block;
         }
 
         h1 {
@@ -136,9 +145,9 @@
 
         .screenshot-gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
-            max-width: 1000px;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
@@ -208,6 +217,11 @@
 
         /* Responsive */
         @media (max-width: 768px) {
+            .app-icon {
+                width: 100px;
+                height: 100px;
+            }
+
             h1 {
                 font-size: 2.5rem;
             }
@@ -247,10 +261,11 @@
 <body>
     <header>
         <div class="container">
+            <img src="app-icon.png" alt="Sea Grid Tactics App Icon" class="app-icon">
             <h1>SEA GRID TACTICS™</h1>
             <p class="tagline">Strategic naval combat, reimagined for mobile</p>
             <p style="color: rgba(255, 255, 255, 0.8); font-size: 1rem; margin-bottom: 25px;">
-                Local multiplayer battleship with a twist: <strong>3-miss-per-turn rule</strong><br>
+                Local multiplayer battleship with a strategic twist<br>
                 No internet needed • Play with anyone nearby
             </p>
             <div class="coming-soon">📱 Coming Soon to App Store</div>
@@ -264,13 +279,13 @@
                 <div class="feature">
                     <div class="feature-icon">🎯</div>
                     <h3>3-Miss Turn System</h3>
-                    <p>Revolutionary turn mechanics: Keep firing until you miss 3 times. One hit resets the count. Offense rewards precision!</p>
+                    <p>Keep shooting as long as you land hits. Miss 3 times in a row and your turn ends. Strategic accuracy matters!</p>
                 </div>
 
                 <div class="feature">
                     <div class="feature-icon">📡</div>
                     <h3>Local Multiplayer</h3>
-                    <p>Play with friends, family, or nearby strangers using WiFi Direct or Bluetooth. No internet or accounts required.</p>
+                    <p>Play with friends, family, or nearby strangers using Wi-Fi Direct. No internet or accounts required.</p>
                 </div>
 
                 <div class="feature">
@@ -305,14 +320,40 @@
         <div class="container">
             <h2>Experience the Battle</h2>
             <div class="screenshot-gallery">
+                <!-- iPhone Screenshots -->
                 <div class="screenshot">
-                    <img src="screenshots/gameplay-preview.png" alt="Sea Grid Tactics gameplay" loading="lazy">
+                    <img src="screenshots/iphone/iphone-1.png" alt="Sea Grid Tactics - Lobby" loading="lazy">
                 </div>
                 <div class="screenshot">
-                    <img src="screenshots/targeting-ui.png" alt="Targeting interface" loading="lazy">
+                    <img src="screenshots/iphone/iphone-2.png" alt="Sea Grid Tactics - Ship Placement" loading="lazy">
                 </div>
                 <div class="screenshot">
-                    <img src="screenshots/placement-screen.png" alt="Ship placement" loading="lazy">
+                    <img src="screenshots/iphone/iphone-3.png" alt="Sea Grid Tactics - Gameplay" loading="lazy">
+                </div>
+                <div class="screenshot">
+                    <img src="screenshots/iphone/iphone-4.png" alt="Sea Grid Tactics - Targeting" loading="lazy">
+                </div>
+                <div class="screenshot">
+                    <img src="screenshots/iphone/iphone-5.png" alt="Sea Grid Tactics - Battle View" loading="lazy">
+                </div>
+                <div class="screenshot">
+                    <img src="screenshots/iphone/iphone-6.png" alt="Sea Grid Tactics - Victory" loading="lazy">
+                </div>
+                <div class="screenshot">
+                    <img src="screenshots/iphone/iphone-7.png" alt="Sea Grid Tactics - Post-Game" loading="lazy">
+                </div>
+                <!-- iPad Screenshots -->
+                <div class="screenshot">
+                    <img src="screenshots/ipad/ipad-1.png" alt="Sea Grid Tactics on iPad - Lobby" loading="lazy">
+                </div>
+                <div class="screenshot">
+                    <img src="screenshots/ipad/ipad-2.png" alt="Sea Grid Tactics on iPad - Placement" loading="lazy">
+                </div>
+                <div class="screenshot">
+                    <img src="screenshots/ipad/ipad-3.png" alt="Sea Grid Tactics on iPad - Gameplay" loading="lazy">
+                </div>
+                <div class="screenshot">
+                    <img src="screenshots/ipad/ipad-4.png" alt="Sea Grid Tactics on iPad - Victory" loading="lazy">
                 </div>
             </div>
             <p style="text-align: center; color: #666; margin-top: 30px; font-size: 0.95rem;">
@@ -326,7 +367,7 @@
             <h2>About Sea Grid Tactics™</h2>
             <p>
                 Classic naval combat meets modern mobile gaming. We took the timeless strategy of Battleship and reimagined it 
-                for today's connected world—with a strategic twist that keeps every turn exciting.
+                for today's connected world—with thoughtful mechanics that keep every turn exciting.
             </p>
             <p>
                 Built for face-to-face gaming: airports, flights, coffee shops, family gatherings. No servers, no accounts, 
