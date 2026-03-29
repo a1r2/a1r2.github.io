@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ingenuity in Gameplay - Sea Grid Tactics</title>
+    <meta name="description" content="Discover the tactical systems that make Sea Grid Tactics more than just a grid game.">
+    <title>Ingenuity in Gameplay - Sea Grid Tactics™</title>
     <style>
         * {
             margin: 0;
@@ -15,165 +16,352 @@
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
             color: #1a1a1a;
-            background: linear-gradient(135deg, #0a1628 0%, #1a2332 100%);
+            background: linear-gradient(135deg, #0f2858 0%, #1e3a72 100%);
             min-height: 100vh;
-            padding: 40px 20px;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.98);
-            border-radius: 12px;
-            padding: 60px 50px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 60px 20px 40px;
+            text-align: center;
+            color: white;
         }
 
         h1 {
-            font-size: 2.8em;
-            font-weight: 700;
-            color: #0a1628;
-            margin-bottom: 20px;
-            letter-spacing: -0.5px;
-        }
-
-        h2 {
-            font-size: 1.8em;
-            font-weight: 600;
-            color: #1a2332;
-            margin-top: 50px;
-            margin-bottom: 20px;
-            border-left: 4px solid #2563eb;
-            padding-left: 20px;
-        }
-
-        h3 {
-            font-size: 1.3em;
-            font-weight: 600;
-            color: #2563eb;
-            margin-top: 35px;
+            font-size: 3.2rem;
+            font-weight: 800;
             margin-bottom: 15px;
-        }
-
-        p {
-            margin-bottom: 18px;
-            font-size: 1.1em;
-            color: #374151;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            letter-spacing: 2px;
         }
 
         .intro {
-            font-size: 1.25em;
-            color: #1f2937;
-            border-left: 3px solid #2563eb;
-            padding-left: 25px;
-            margin-bottom: 40px;
-            font-weight: 400;
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 800px;
+            margin: 0 auto 20px;
+            font-weight: 300;
         }
 
-        .system-block {
+        /* Content Sections */
+        .content-section {
+            background: white;
+            padding: 60px 20px;
+        }
+
+        .content-section:nth-child(even) {
             background: #f8fafc;
-            border-radius: 8px;
-            padding: 25px;
+        }
+
+        .content-section h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #0f2858;
             margin-bottom: 30px;
-            border: 1px solid #e2e8f0;
+            text-align: center;
         }
 
-        .system-block h3 {
-            margin-top: 0;
-            color: #0a1628;
-        }
-
-        .philosophy-section {
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            border-radius: 8px;
-            padding: 30px;
+        .system-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
             margin-top: 50px;
-            border: 1px solid #93c5fd;
         }
 
-        .philosophy-section h2 {
-            margin-top: 0;
-            border-left: none;
-            padding-left: 0;
+        .system-card {
+            background: white;
+            border-radius: 12px;
+            padding: 35px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #ff6b35;
         }
 
-        .trademark {
+        .content-section:nth-child(even) .system-card {
+            background: white;
+        }
+
+        .system-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f2858;
+            margin-bottom: 15px;
+        }
+
+        .system-card .trademark {
+            color: #ff6b35;
             font-weight: 600;
-            color: #0a1628;
         }
 
-        ul {
-            margin-left: 25px;
-            margin-bottom: 18px;
+        .system-card p {
+            color: #555;
+            font-size: 1.05rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
         }
 
-        li {
-            margin-bottom: 12px;
-            font-size: 1.1em;
+        .system-card ul {
+            margin: 20px 0 20px 20px;
+            color: #555;
+        }
+
+        .system-card li {
+            margin-bottom: 10px;
+            font-size: 1.05rem;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-radius: 12px;
+            padding: 40px;
+            margin: 50px auto;
+            max-width: 900px;
+            border: 2px solid #93c5fd;
+        }
+
+        .highlight-box h3 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #0f2858;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .highlight-box p {
             color: #374151;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
         }
 
+        .highlight-box strong {
+            color: #0f2858;
+        }
+
+        /* Philosophy Section */
+        .philosophy {
+            background: linear-gradient(135deg, #1e3a72 0%, #0f2858 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .philosophy h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .philosophy p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 25px;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.95);
+        }
+
+        .philosophy ul {
+            max-width: 700px;
+            margin: 30px auto;
+            text-align: left;
+            list-style: none;
+        }
+
+        .philosophy li {
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+            padding-left: 30px;
+            position: relative;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .philosophy li:before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: #ff6b35;
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            background: #0a1628;
+            color: rgba(255, 255, 255, 0.8);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        footer a {
+            color: #4a9eff;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .container {
-                padding: 40px 30px;
-            }
-
             h1 {
-                font-size: 2.2em;
-            }
-
-            h2 {
-                font-size: 1.5em;
+                font-size: 2.2rem;
             }
 
             .intro {
-                font-size: 1.1em;
+                font-size: 1.1rem;
+            }
+
+            .content-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .system-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .system-card {
+                padding: 25px;
+            }
+
+            .philosophy h2 {
+                font-size: 2rem;
+            }
+
+            .philosophy p {
+                font-size: 1.05rem;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Ingenuity in Gameplay</h1>
-        
-        <p class="intro">
-            Sea Grid Tactics is not a simple grid game. It is built on layered tactical systems that create tension, reward judgment, and transform uncertainty into strategy. Every decision matters. Every system interacts.
-        </p>
-
-        <h2>Core Systems</h2>
-
-        <div class="system-block">
-            <h3>Adaptive Engagement Lobby™</h3>
-            <p>
-                The lobby is not a waiting room. It is a psychological staging ground where players are matched through peer-to-peer discovery, creating a sense of proximity and anticipation. Players see real opponents in real time, building tension before the first shot is fired. The lobby frames the encounter—not as a random pairing, but as a deliberate engagement between equals.
+    <header>
+        <div class="container">
+            <h1>INGENUITY IN GAMEPLAY</h1>
+            <p class="intro">
+                Sea Grid Tactics is built on layered tactical systems that transform uncertainty into strategy. 
+                Every decision matters. Every system interacts.
             </p>
         </div>
+    </header>
 
-        <div class="system-block">
-            <h3>Precision Targeting Matrix™</h3>
-            <p>
-                Targeting in Sea Grid is tactile and deliberate. Players use a draggable D-pad control panel to position a crosshair marker on the grid, confirming intent with a FIRE button. This introduces friction—good friction. It eliminates impulsive taps and forces players to commit to every shot. Each coordinate becomes a calculated risk, not a random guess.
-            </p>
+    <section class="content-section">
+        <div class="container">
+            <h2>Core Tactical Systems</h2>
+            
+            <div class="system-grid">
+                <div class="system-card">
+                    <h3>Peer Discovery Lobby™</h3>
+                    <p>
+                        The lobby is not a waiting room—it's a tactical staging ground. Using <strong>MultipeerConnectivity</strong>, 
+                        players discover opponents in real-time through peer-to-peer WiFi Direct. You see who's nearby, 
+                        ready to engage. No internet. No accounts. No servers.
+                    </p>
+                    <p>
+                        This creates a sense of proximity and anticipation. You're not matched with a random stranger in a 
+                        faraway data center. You're facing someone in the same physical space—or on the same flight, 
+                        in the same airport lounge, at the same coffee shop.
+                    </p>
+                    <p>
+                        The lobby frames the encounter as <strong>deliberate</strong>, not arbitrary.
+                    </p>
+                </div>
+
+                <div class="system-card">
+                    <h3>Precision Targeting Interface™</h3>
+                    <p>
+                        Targeting in Sea Grid is tactile and intentional. Players use a <strong>draggable D-pad control panel</strong> 
+                        to position a crosshair marker on the grid, then press a physical <strong>FIRE button</strong> to confirm.
+                    </p>
+                    <p>
+                        This introduces <em>good friction</em>. It eliminates impulsive taps. It forces commitment. 
+                        Every shot becomes a deliberate calculation, not a random guess.
+                    </p>
+                    <p>
+                        The UI also includes a <strong>countdown timer</strong> (30 seconds per turn) and 
+                        <strong>auto-marked safe zones</strong> around sunken ships—tactical overlays that reduce cognitive 
+                        load while preserving strategic depth.
+                    </p>
+                </div>
+
+                <div class="system-card">
+                    <h3>3-Miss Turn Rule™</h3>
+                    <p>
+                        Traditional battleship ends your turn after every shot. Sea Grid doesn't.
+                    </p>
+                    <p>
+                        <strong>You keep shooting as long as you land hits.</strong> Miss 3 times in a row, and your turn ends. 
+                        This creates momentum—rewarding pattern recognition and punishing blind guessing.
+                    </p>
+                    <p>
+                        The 3-miss rule transforms mid-game scenarios from coin flips into tactical sequences. Do you:
+                    </p>
+                    <ul>
+                        <li>Chase a known ship aggressively?</li>
+                        <li>Probe for hidden ships conservatively?</li>
+                        <li>Gamble on high-value positions with 2 misses already used?</li>
+                    </ul>
+                    <p>
+                        Every choice carries risk. Every miss brings you closer to losing the turn.
+                    </p>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Submarine Radar™ — Information Asymmetry</h3>
+                <p>
+                    When the submarine is the <strong>last remaining opponent ship</strong>, a <span class="trademark">Radar</span> 
+                    button appears. Activate it once to see 3 flash pulses revealing which quadrant the submarine is hiding in.
+                </p>
+                <p>
+                    <strong>But there's a tradeoff.</strong>
+                </p>
+                <p>
+                    For the rest of the game, you're limited to <strong>2 shots per turn</strong>—replacing the normal 3-miss rule. 
+                    Both hits and misses count. After 2 shots, your turn ends immediately.
+                </p>
+                <p>
+                    This is not automatic visibility. This is <strong>earned intelligence with a permanent cost</strong>. 
+                    The radar doesn't guarantee victory—it changes the game state in your favor while constraining your tactical options.
+                </p>
+                <p>
+                    Do you use radar early to narrow the search space? Or hold it as insurance for a desperate endgame? 
+                    The decision matters.
+                </p>
+            </div>
         </div>
+    </section>
 
-        <div class="system-block">
-            <h3>Dynamic Radar Intelligence™</h3>
-            <p>
-                Radar in Sea Grid operates on information asymmetry and earned visibility. Players start blind. As the game progresses, radar capabilities unlock based on strategic milestones—revealing quadrants, tracking patterns, or exposing the last remaining ship. Radar is not automatic. It is earned. This transforms late-game scenarios from coin flips into high-stakes decision-making under partial information.
-            </p>
+    <section class="content-section">
+        <div class="container">
+            <h2>Why It Matters</h2>
+            
+            <div class="system-card" style="max-width: 900px; margin: 0 auto;">
+                <p>
+                    These systems create <strong>tension</strong>—not through randomness, but through 
+                    <strong>uncertainty managed by player judgment</strong>.
+                </p>
+                <p>
+                    Sea Grid does not hand you information. It makes you work for it. 
+                    It does not guide your hand. It asks you to commit. 
+                    It does not let luck decide endgames. It rewards pattern recognition and probabilistic thinking.
+                </p>
+                <p>
+                    This is what separates Sea Grid from generic grid-based games. The grid is not the game. 
+                    <strong>The systems are the game.</strong> The grid is just where those systems collide.
+                </p>
+            </div>
         </div>
+    </section>
 
-        <h2>Why It Matters</h2>
-
-        <p>
-            These systems create tension. Not through randomness, but through uncertainty managed by player judgment. Sea Grid does not hand you information—it makes you work for it. It does not guide your hand—it asks you to commit. It does not let luck decide endgames—it rewards pattern recognition and probabilistic thinking.
-        </p>
-
-        <p>
-            This is what separates Sea Grid from generic grid-based games. The grid is not the game. The systems are the game. The grid is just where those systems collide.
-        </p>
-
-        <div class="philosophy-section">
+    <section class="philosophy">
+        <div class="container">
             <h2>Design Philosophy</h2>
             
             <p>
@@ -181,7 +369,8 @@
             </p>
 
             <p>
-                Every system is built to create meaningful choices where outcomes are unclear but not arbitrary. Players must:
+                Every system is built to create meaningful choices where outcomes are unclear but not arbitrary. 
+                Players must:
             </p>
 
             <ul>
@@ -192,17 +381,33 @@
             </ul>
 
             <p>
-                This is not about luck. It is about judgment. The systems ensure that skilled players win more often—but never predictably. The edge goes to those who think, not those who guess.
+                This is not about luck. It is about <strong>judgment</strong>. The systems ensure that skilled players 
+                win more often—but never predictably. The edge goes to those who <strong>think</strong>, not those who guess.
             </p>
 
-            <p>
+            <p style="font-size: 1.3rem; font-weight: 600; margin-top: 40px; color: #ff6b35;">
                 Sea Grid Tactics is strategy under fog. It is chess with incomplete visibility. It is poker on a grid.
             </p>
 
-            <p>
+            <p style="font-size: 1.3rem; font-weight: 600; margin-top: 20px;">
                 That is ingenuity in gameplay.
             </p>
         </div>
-    </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 A1R2. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem;">
+                Sea Grid Tactics™, Peer Discovery Lobby™, Precision Targeting Interface™, 3-Miss Turn Rule™, 
+                and Submarine Radar™ are trademarks of A1R2.
+            </p>
+            <div style="margin-top: 20px;">
+                <a href="index.html">← Back to Home</a>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="mailto:onairda.somar@gmail.com">Contact</a>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>
