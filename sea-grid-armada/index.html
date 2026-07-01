@@ -1,401 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sea Grid Armada - Two-player naval strategy reimagined for mobile. Local multiplayer naval strategy with tactical gameplay. Available on iOS.">
-    <title>Sea Grid Armada - Strategic Naval Combat for iOS</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Sea Grid Armada — two-player naval combat for iOS. Read the fog, commit every shot, hunt the last ship. Local multiplayer over Bluetooth, no internet required.">
+<title>Sea Grid Armada — Naval Combat for iOS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --abyss:#081A24;--hull:#0C2531;--hull-2:#0A1F29;
+  --line:rgba(120,180,200,.07);--line-strong:rgba(120,180,200,.16);
+  --foam:#EAF1F2;--mist:#9DB4BC;--mist-dim:#5E7882;
+  --brass:#D7A94B;--brass-soft:rgba(215,169,75,.16);--sonar:#3FC7B4;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--foam);background:var(--abyss);line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(900px 600px at 82% -5%, rgba(63,199,180,.10), transparent 60%),
+  radial-gradient(1100px 700px at 6% 106%, rgba(215,169,75,.08), transparent 55%),
+  repeating-linear-gradient(0deg, var(--line) 0 1px, transparent 1px 64px),
+  repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 64px);}
+.wrap{position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:0 24px}
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #1a1a1a;
-            background: linear-gradient(135deg, #0f2858 0%, #1e3a72 100%);
-            min-height: 100vh;
-        }
+.statusbar{display:flex;justify-content:space-between;align-items:center;gap:16px;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);padding:20px 0;border-bottom:1px solid var(--line-strong);flex-wrap:wrap}
+.statusbar .live{color:var(--sonar);display:inline-flex;align-items:center;gap:8px}
+.statusbar .live::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--sonar);box-shadow:0 0 0 0 rgba(63,199,180,.6);animation:ping 2.6s ease-out infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(63,199,180,.55)}70%,100%{box-shadow:0 0 0 9px rgba(63,199,180,0)}}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+/* persistent sticky nav — identical across all pages */
+.topnav{position:sticky;top:0;z-index:40;background:rgba(8,26,36,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line-strong)}
+.nav-inner{max-width:1080px;margin:0 auto;padding:13px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px 22px;flex-wrap:wrap;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+.nav-inner .brand{color:var(--foam);text-decoration:none;font-weight:500;letter-spacing:.2em;white-space:nowrap}
+.nav-inner .brand:hover{color:var(--brass)}
+.nav-links{display:flex;gap:20px;flex-wrap:wrap}
+.nav-links a{color:var(--mist);text-decoration:none;padding-bottom:3px;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+.nav-links a:hover{color:var(--brass)}
+.nav-links a[aria-current="page"]{color:var(--brass);border-bottom-color:var(--brass)}
 
-        /* Header */
-        header {
-            padding: 60px 20px;
-            text-align: center;
-            color: white;
-        }
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:48px;align-items:center;padding:72px 0 52px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:var(--brass);margin-bottom:22px}
+.hero h1{font-family:"Saira Condensed",sans-serif;font-weight:800;text-transform:uppercase;font-size:clamp(3rem,8.5vw,6rem);line-height:.88;letter-spacing:-.5px}
+.hero h1 .alt{color:var(--brass);display:block}
+.lede{margin-top:24px;font-size:clamp(1.05rem,1.6vw,1.22rem);color:var(--mist);max-width:40ch}
+.lede strong{color:var(--foam);font-weight:600}
+.chip{display:inline-flex;align-items:center;gap:10px;margin-top:28px;font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--foam);border:1px solid var(--brass-soft);background:var(--brass-soft);padding:11px 18px}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--brass)}
 
-        .app-icon {
-            width: 168px;
-            height: 168px;
-            margin: 0 auto 25px;
-            border-radius: 32px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-            display: block;
-        }
+.insignia{position:relative;width:100%;max-width:320px;margin:0 auto;aspect-ratio:1;display:grid;place-items:center;border:1px solid var(--line-strong);background:var(--hull-2);box-shadow:inset 0 0 60px rgba(0,0,0,.5)}
+.insignia img{width:62%;height:auto;border-radius:24%;box-shadow:0 18px 50px -12px rgba(0,0,0,.8)}
+.insignia .tick{position:absolute;font-family:"IBM Plex Mono",monospace;font-size:.6rem;color:var(--mist-dim);letter-spacing:.1em}
+.insignia .tick.tl{top:9px;left:11px}.insignia .tick.tr{top:9px;right:11px}.insignia .tick.bl{bottom:9px;left:11px}.insignia .tick.br{bottom:9px;right:11px}
+.insignia-cap{position:absolute;bottom:-30px;left:0;width:100%;text-align:center;font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mist-dim)}
 
-        h1 {
-            font-size: 3.5rem;
-            font-weight: 800;
-            margin-bottom: 15px;
-            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            letter-spacing: 3px;
-        }
+.readout{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-strong);border:1px solid var(--line-strong);margin:8px 0}
+.readout div{background:var(--hull-2);padding:24px 22px}
+.readout .n{font-family:"Saira Condensed",sans-serif;font-weight:700;font-size:2rem;color:var(--brass);line-height:1}
+.readout .l{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mist);margin-top:10px}
 
-        .tagline {
-            font-size: 1.4rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 30px;
-            font-weight: 300;
-        }
+.section-head{display:flex;align-items:baseline;gap:18px;margin:0 0 34px;padding-top:56px;border-top:1px solid var(--line-strong)}
+.section-head .k{font-family:"IBM Plex Mono",monospace;font-size:.75rem;letter-spacing:.22em;color:var(--brass);text-transform:uppercase;white-space:nowrap}
+.section-head h2{font-family:"Saira Condensed",sans-serif;font-weight:700;text-transform:uppercase;font-size:clamp(1.7rem,3.4vw,2.4rem);letter-spacing:.5px}
 
-        .download-badge {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 15px 40px;
-            background: white;
-            color: #0f2858;
-            text-decoration: none;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-        }
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:16px}
+.card{background:var(--hull);border:1px solid var(--line-strong);border-top:2px solid var(--brass);padding:28px 26px;transition:transform .25s ease,background .25s ease,border-color .25s ease}
+.card:hover{transform:translateY(-4px);background:#0E2A37;border-top-color:var(--sonar)}
+.card .kick{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mist-dim);margin-bottom:14px}
+.card h3{font-family:"Saira Condensed",sans-serif;font-weight:600;text-transform:uppercase;font-size:1.3rem;letter-spacing:.3px;margin-bottom:10px}
+.card p{color:var(--mist);font-size:1rem}
+.card a{color:var(--brass);text-decoration:none;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;display:inline-block;margin-top:14px;border-bottom:1px solid var(--brass-soft);padding-bottom:2px}
+.card a:hover{border-color:var(--brass)}
 
-        .download-badge:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-        }
+.plate-sub{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--brass);margin:34px 0 16px;display:flex;align-items:center;gap:14px}
+.plate-sub::after{content:"";flex:1;height:1px;background:var(--line-strong)}
+.plate-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px}
+.plate-grid.pad{grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.plate{position:relative;margin:0}
+.plate-btn{position:relative;display:block;width:100%;padding:0;cursor:pointer;border:1px solid var(--line-strong);background:var(--hull);transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.plate-btn::after{content:"\2922";position:absolute;top:8px;right:8px;font-size:.72rem;color:var(--abyss);background:var(--brass);width:22px;height:22px;display:grid;place-items:center;opacity:0;transition:opacity .2s}
+.plate-btn:hover,.plate-btn:focus-visible{transform:translateY(-4px);border-color:var(--brass);box-shadow:0 14px 32px -14px rgba(0,0,0,.75),0 0 0 1px var(--brass-soft)}
+.plate-btn:hover::after,.plate-btn:focus-visible::after{opacity:1}
+.plate-btn:focus-visible{outline:2px solid var(--sonar);outline-offset:3px}
+.plate img{display:block;width:100%;height:auto}
+.plate figcaption{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mist);margin-top:10px;line-height:1.45}
+.plate figcaption .pn{color:var(--brass);display:block;font-size:.6rem;letter-spacing:.18em;margin-bottom:3px}
+.plate-note{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mist-dim);margin-top:22px}
 
-        .coming-soon {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 15px 40px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            color: white;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
+.about{padding:0 0 8px}
+.about p{font-size:clamp(1.1rem,2vw,1.32rem);color:var(--foam);max-width:62ch;font-weight:400}
+.about p+p{margin-top:20px;color:var(--mist);font-size:1.08rem}
+.about .lead-cap{color:var(--brass);font-weight:600}
 
-        /* Features */
-        .features {
-            background: white;
-            padding: 80px 20px;
-        }
+footer{border-top:1px solid var(--line-strong);margin-top:56px;padding:34px 0 64px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mist-dim)}
+footer a{color:var(--mist);text-decoration:none;border-bottom:1px solid var(--line-strong);padding-bottom:2px;transition:color .2s,border-color .2s}
+footer a:hover{color:var(--brass);border-color:var(--brass)}
+footer .links a{margin-left:16px}
+.tm{color:var(--mist);font-weight:600}
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 40px;
-            margin-top: 40px;
-        }
+.lightbox{position:fixed;inset:0;z-index:50;display:none;place-items:center;padding:5vh 5vw;background:rgba(4,12,17,.93);backdrop-filter:blur(4px)}
+.lightbox.open{display:grid}
+.lightbox img{max-width:100%;max-height:90vh;width:auto;border:1px solid var(--line-strong);box-shadow:0 30px 80px -20px #000}
+.lightbox .x{position:absolute;top:18px;right:22px;font-family:"IBM Plex Mono",monospace;font-size:1.3rem;color:var(--foam);background:rgba(12,37,49,.7);border:1px solid var(--line-strong);width:46px;height:46px;border-radius:50%;cursor:pointer;transition:color .2s,border-color .2s}
+.lightbox .x:hover,.lightbox .x:focus-visible{color:var(--brass);border-color:var(--brass);outline:none}
 
-        .feature {
-            text-align: center;
-            padding: 30px;
-            background: #f8f9fa;
-            border-radius: 16px;
-            transition: transform 0.3s ease;
-        }
+a:focus-visible,.card:focus-visible{outline:2px solid var(--sonar);outline-offset:3px}
 
-        .feature:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 15px;
-        }
-
-        .feature h3 {
-            color: #1e3a72;
-            margin-bottom: 10px;
-            font-size: 1.4rem;
-        }
-
-        .feature p {
-            color: #666;
-            line-height: 1.8;
-        }
-
-        /* Screenshots */
-        .screenshots {
-            background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 80px 20px;
-        }
-
-        .screenshots h2 {
-            text-align: center;
-            color: #1e3a72;
-            font-size: 2.5rem;
-            margin-bottom: 50px;
-        }
-
-        .screenshot-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        .screenshot {
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease;
-        }
-
-        .screenshot:hover {
-            transform: scale(1.05);
-        }
-
-        .screenshot img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        /* About */
-        .about {
-            background: white;
-            padding: 80px 20px;
-            text-align: center;
-        }
-
-        .about h2 {
-            color: #1e3a72;
-            font-size: 2.5rem;
-            margin-bottom: 30px;
-        }
-
-        .about p {
-            max-width: 700px;
-            margin: 0 auto 20px;
-            color: #555;
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        /* Footer */
-        footer {
-            background: #0f2858;
-            color: rgba(255, 255, 255, 0.8);
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        footer a {
-            color: #4a9eff;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-
-        .footer-links {
-            margin-top: 20px;
-            font-size: 0.95rem;
-        }
-
-        .footer-links a {
-            margin: 0 15px;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .app-icon {
-                width: 140px;
-                height: 140px;
-            }
-
-            h1 {
-                font-size: 2.5rem;
-            }
-
-            .tagline {
-                font-size: 1.1rem;
-            }
-
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .screenshot-gallery {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Section headers */
-        section h2 {
-            position: relative;
-            display: inline-block;
-        }
-
-        section h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 4px;
-            background: #ff6b35;
-            border-radius: 2px;
-        }
-    </style>
+@media (max-width:840px){
+  .hero{grid-template-columns:1fr;gap:36px;padding:52px 0}
+  .insignia{max-width:250px}
+  .readout{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .statusbar .live::before{animation:none}
+  .card,.plate-btn{transition:none}
+}
+</style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <img src="app-icon.png" alt="Sea Grid Armada App Icon" class="app-icon">
-            <h1>SEA GRID ARMADA</h1>
-            <p class="tagline">Strategic naval combat, reimagined for mobile</p>
-            <p style="color: rgba(255, 255, 255, 0.8); font-size: 1rem; margin-bottom: 25px;">
-                Local multiplayer naval strategy with a tactical twist<br>
-                No internet needed • Play with anyone nearby
-            </p>
-            <div class="coming-soon">📱 Coming Soon to the App Store</div>
-        </div>
-    </header>
+<nav class="topnav"><div class="nav-inner">
+  <a class="brand" href="index.html">Sea Grid Armada</a>
+  <div class="nav-links">
+    <a href="index.html" aria-current="page">Home</a>
+    <a href="ingenuity-in-gameplay.html">Doctrine</a>
+    <a href="submarine-radar.html">Radar</a>
+    <a href="privacy-policy.html">Privacy</a>
+  </div>
+</div></nav>
+<div class="wrap">
 
-    <section class="features">
-        <div class="container">
-            <h2 style="text-align: center; color: #1e3a72; font-size: 2.5rem; margin-bottom: 20px;">Why You'll Love It</h2>
-            <div class="features-grid">
-                <div class="feature">
-                    <div class="feature-icon">🎯</div>
-                    <h3>3-Miss Turn System</h3>
-                    <p>Keep shooting as long as you land hits. Miss 3 times in a row and your turn ends. Strategic accuracy matters!</p>
-                </div>
+  <header class="hero">
+    <div>
+      <div class="eyebrow">Naval combat · iOS · Local 1v1</div>
+      <h1>Sea Grid<span class="alt">Armada</span></h1>
+      <p class="lede">Two-player naval combat, reimagined for mobile. Read the fog, <strong>commit every shot</strong>, and hunt the last ship — all on the device in your hand, no internet required.</p>
+      <div class="chip">Coming soon to the App Store</div>
+    </div>
+    <div class="insignia" aria-hidden="true">
+      <span class="tick tl">A·1</span><span class="tick tr">J·1</span><span class="tick bl">A·10</span><span class="tick br">J·10</span>
+      <img src="app-icon.png" alt="">
+      <div class="insignia-cap">Fleet insignia</div>
+    </div>
+  </header>
 
-                <div class="feature">
-                    <div class="feature-icon">📡</div>
-                    <h3>Local Multiplayer</h3>
-                    <p>Play with friends, family, or nearby strangers using Wi-Fi Direct. No internet or accounts required.</p>
-                </div>
+  <div class="readout">
+    <div><div class="n">10×10</div><div class="l">Sector grid · 6-ship fleet</div></div>
+    <div><div class="n">0</div><div class="l">Servers · accounts · internet</div></div>
+    <div><div class="n">100%</div><div class="l">Offline after download</div></div>
+  </div>
 
-                <div class="feature">
-                    <div class="feature-icon">✈️</div>
-                    <h3>Perfect for Travel</h3>
-                    <p>Airports, flights, road trips—anywhere two people want to battle. Works offline after download.</p>
-                </div>
+  <section>
+    <div class="section-head"><span class="k">// Capabilities</span><h2>Why you'll love it</h2></div>
+    <div class="cards">
+      <div class="card"><div class="kick">// tempo</div><h3>Three-miss turns</h3><p>Keep firing while you land hits. Miss three in a row and the turn passes to your opponent. Accuracy sets the pace.</p></div>
+      <div class="card"><div class="kick">// link</div><h3>Local multiplayer</h3><p>Find a nearby player over Bluetooth or local Wi-Fi. No internet, no accounts, no servers — ever.</p></div>
+      <div class="card"><div class="kick">// range</div><h3>Precision targeting</h3><p>A draggable D-pad places your crosshair; a FIRE button commits the shot. Good friction — no fat-finger misfires.</p></div>
+      <div class="card"><div class="kick">// radar</div><h3>Submarine radar</h3><p>Earn radar by watching a short ad. When the sub is the last ship, its quadrant lights up and you fire two shots a turn.</p><a href="submarine-radar.html">Learn more →</a></div>
+      <div class="card"><div class="kick">// intel</div><h3>Fog of war</h3><p>You start blind. The board only shows what you've earned — every reveal is information you fought for.</p></div>
+      <div class="card"><div class="kick">// travel</div><h3>Made for anywhere</h3><p>Flights, road trips, waiting rooms — anywhere two people sit down. Fully playable offline after download.</p></div>
+    </div>
+  </section>
 
-                <div class="feature">
-                    <div class="feature-icon">🧠</div>
-                    <h3>Strategic Depth</h3>
-                    <p>Targeting UX with draggable D-pad, countdown timer, and tactical overlays. Auto-mark safe zones around sunken ships.</p>
-                </div>
+  <section>
+    <div class="section-head"><span class="k">// Field evidence</span><h2>See it in play</h2></div>
+    <p class="plate-sub">// iPhone</p>
+    <div class="plate-grid">
+      <figure class="plate"><button type="button" class="plate-btn" data-full="screenshots/web/iphone/01-lobby.png" aria-label="Expand: the lobby"><img src="screenshots/web/iphone/01-lobby.png" alt="Lobby scanning for nearby players" loading="lazy" width="900" height="1955"></button><figcaption><span class="pn">Plate 01</span>Contact · find an opponent</figcaption></figure>
+      <figure class="plate"><button type="button" class="plate-btn" data-full="screenshots/web/iphone/02-placement.png" aria-label="Expand: placement"><img src="screenshots/web/iphone/02-placement.png" alt="Placing the fleet on the grid" loading="lazy" width="900" height="1955"></button><figcaption><span class="pn">Plate 02</span>Deploy · commit the fleet</figcaption></figure>
+      <figure class="plate"><button type="button" class="plate-btn" data-full="screenshots/web/iphone/04-combat-open.png" aria-label="Expand: combat"><img src="screenshots/web/iphone/04-combat-open.png" alt="Combat with the enemy fleet tracker" loading="lazy" width="900" height="1955"></button><figcaption><span class="pn">Plate 03</span>Engage · read the fleet</figcaption></figure>
+      <figure class="plate"><button type="button" class="plate-btn" data-full="screenshots/web/iphone/03-radar-prompt.png" aria-label="Expand: earn radar"><img src="screenshots/web/iphone/03-radar-prompt.png" alt="Prompt to unlock submarine radar" loading="lazy" width="900" height="1955"></button><figcaption><span class="pn">Plate 04</span>Earn · unlock the radar</figcaption></figure>
+      <figure class="plate"><button type="button" class="plate-btn" data-full="screenshots/web/iphone/06-radar-active.png" aria-label="Expand: radar active"><img src="screenshots/web/iphone/06-radar-active.png" alt="Radar flashing the last ship's quadrant" loading="lazy" width="900" height="1955"></button><figcaption><span class="pn">Plate 05</span>Reveal · corner the sub</figcaption></figure>
+      <figure class="plate"><button type="button" class="plate-btn" data-full="screenshots/web/iphone/07-victory.jpg" aria-label="Expand: victory"><img src="screenshots/web/iphone/07-victory.jpg" alt="Victory screen with match statistics" loading="lazy" width="900" height="1955"></button><figcaption><span class="pn">Plate 06</span>Victory · the after-action</figcaption></figure>
+    </div>
+    <p class="plate-sub">// iPad · dual-board command</p>
+    <div class="plate-grid pad">
+      <figure class="plate"><button type="button" class="plate-btn" data-full="screenshots/web/ipad/04-combat.png" aria-label="Expand: iPad combat"><img src="screenshots/web/ipad/04-combat.png" alt="iPad combat — defense and target side by side" loading="lazy" width="1200" height="1727"></button><figcaption><span class="pn">Plate 07</span>Defense &amp; target, side by side</figcaption></figure>
+      <figure class="plate"><button type="button" class="plate-btn" data-full="screenshots/web/ipad/06-defense.jpg" aria-label="Expand: iPad under fire"><img src="screenshots/web/ipad/06-defense.jpg" alt="iPad board under fire on the opponent's turn" loading="lazy" width="1200" height="1727"></button><figcaption><span class="pn">Plate 08</span>Under fire · the opponent's turn</figcaption></figure>
+      <figure class="plate"><button type="button" class="plate-btn" data-full="screenshots/web/ipad/01-lobby.png" aria-label="Expand: iPad lobby"><img src="screenshots/web/ipad/01-lobby.png" alt="iPad lobby scanning for players" loading="lazy" width="1200" height="1727"></button><figcaption><span class="pn">Plate 09</span>Contact · on the larger screen</figcaption></figure>
+      <figure class="plate"><button type="button" class="plate-btn" data-full="screenshots/web/ipad/02-placement.png" aria-label="Expand: iPad placement"><img src="screenshots/web/ipad/02-placement.png" alt="iPad ship placement" loading="lazy" width="1200" height="1727"></button><figcaption><span class="pn">Plate 10</span>Deploy · the full fleet</figcaption></figure>
+    </div>
+    <p class="plate-note">Tap any plate to enlarge · captured from a live match on a test build</p>
+  </section>
 
-                <div class="feature">
-                    <div class="feature-icon">📡</div>
-                    <h3>Submarine Radar</h3>
-                    <p>Watch a quick ad before the match to unlock radar. When the sub is the last ship, reveal its quadrant and get 2-shot-per-turn mode!</p>
-                    <a href="submarine-radar.html" style="display: inline-block; margin-top: 10px; color: #1e3a72; font-weight: 600; text-decoration: none; border-bottom: 2px solid #ff6b35;">Learn More →</a>
-                </div>
+  <section class="about">
+    <div class="section-head"><span class="k">// Doctrine</span><h2>About the game</h2></div>
+    <p><span class="lead-cap">The grid is not the game.</span> Sea Grid Armada takes the old idea of naval guessing and layers real tactical systems on top — earned visibility, committed shots, and an endgame that rewards pattern reading over luck.</p>
+    <p>Built for face-to-face play: no servers, no accounts, no internet after download. Just two opponents, one local link, and the fog between you. Developed by A1R2 for iPhone and iPad.</p>
+  </section>
 
-                <div class="feature">
-                    <div class="feature-icon">🎮</div>
-                    <h3>Intuitive Controls</h3>
-                    <p>Tap-to-target with draggable D-pad, countdown timer, and visual feedback. Every shot feels precise and satisfying.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+  <footer>
+    <span class="tm">Sea Grid Armada™ · © 2026 A1R2</span>
+    <span class="links"><a href="privacy-policy.html">Privacy</a><a href="ingenuity-in-gameplay.html">Doctrine</a><a href="submarine-radar.html">Radar</a><a href="mailto:a1r2.adriano@gmail.com">Contact</a></span>
+  </footer>
 
-    <section class="screenshots">
-        <div class="container">
-            <h2>Experience the Battle</h2>
-            
-            <!-- iPhone Screenshots -->
-            <h3 style="text-align: center; color: #1e3a72; font-size: 1.8rem; margin-bottom: 30px; margin-top: 20px;">iPhone</h3>
-            <div class="screenshot-gallery">
-                <div class="screenshot">
-                    <img src="screenshots/iphone/iphone-1.png" alt="Sea Grid Armada - Lobby" loading="lazy">
-                </div>
-                <div class="screenshot">
-                    <img src="screenshots/iphone/iphone-2.png" alt="Sea Grid Armada - Ship Placement" loading="lazy">
-                </div>
-                <div class="screenshot">
-                    <img src="screenshots/iphone/iphone-3.png" alt="Sea Grid Armada - Gameplay" loading="lazy">
-                </div>
-                <div class="screenshot">
-                    <img src="screenshots/iphone/iphone-4.png" alt="Sea Grid Armada - Targeting" loading="lazy">
-                </div>
-                <div class="screenshot">
-                    <img src="screenshots/iphone/iphone-6.png" alt="Sea Grid Armada - Victory" loading="lazy">
-                </div>
-                <div class="screenshot">
-                    <img src="screenshots/iphone/iphone-7.png" alt="Sea Grid Armada - Post-Game" loading="lazy">
-                </div>
-            </div>
+</div>
 
-            <!-- iPad Screenshots -->
-            <h3 style="text-align: center; color: #1e3a72; font-size: 1.8rem; margin-bottom: 30px; margin-top: 60px;">iPad</h3>
-            <div class="screenshot-gallery">
-                <div class="screenshot">
-                    <img src="screenshots/ipad/ipad-1.png" alt="Sea Grid Armada on iPad - Lobby" loading="lazy">
-                </div>
-                <div class="screenshot">
-                    <img src="screenshots/ipad/ipad-2.png" alt="Sea Grid Armada on iPad - Placement" loading="lazy">
-                </div>
-                <div class="screenshot">
-                    <img src="screenshots/ipad/ipad-3.png" alt="Sea Grid Armada on iPad - Gameplay" loading="lazy">
-                </div>
-                <div class="screenshot">
-                    <img src="screenshots/ipad/ipad-4.png" alt="Sea Grid Armada on iPad - Victory" loading="lazy">
-                </div>
-            </div>
-            
-            <p style="text-align: center; color: #666; margin-top: 30px; font-size: 0.95rem;">
-                <em>Screenshots from iOS development build. Final design subject to refinement.</em>
-            </p>
-        </div>
-    </section>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged screenshot">
+  <button type="button" class="x" id="lightbox-close" aria-label="Close">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
 
-    <section class="about">
-        <div class="container">
-            <h2>About Sea Grid Armada</h2>
-            <p>
-                Local naval strategy meets modern mobile gaming. Inspired by classic grid strategy games, we've created 
-                an experience for today's connected world—with thoughtful mechanics that keep every turn exciting.
-            </p>
-            <p>
-                Built for face-to-face gaming: airports, flights, coffee shops, family gatherings. No servers, no accounts, 
-                no internet required (after download). Just pure tactical fun between two opponents.
-            </p>
-            <p>
-                <strong>Developed by A1R2</strong> • Crafted with care for iOS • More platforms coming soon
-            </p>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 A1R2. All rights reserved.</p>
-            <p style="margin-top: 10px; font-size: 0.9rem;">Sea Grid Armada is a trademark of A1R2.</p>
-            <div class="footer-links">
-                <a href="privacy-policy.html">Privacy Policy</a>
-                <a href="ingenuity-in-gameplay.html">Ingenuity in Gameplay</a>
-                <a href="mailto:onairda.somar@gmail.com">Contact</a>
-            </div>
-            <p style="margin-top: 20px; font-size: 0.85rem; color: rgba(255, 255, 255, 0.6);">
-                App Store and iOS are trademarks of Apple Inc.
-            </p>
-        </div>
-    </footer>
+<script>
+(function(){
+  var box=document.getElementById('lightbox'),img=document.getElementById('lightbox-img'),
+      close=document.getElementById('lightbox-close'),last=null;
+  if(!box)return;
+  function open(src,alt){img.src=src;img.alt=alt||'';box.classList.add('open');last=document.activeElement;close.focus();}
+  function shut(){box.classList.remove('open');img.src='';if(last&&last.focus)last.focus();}
+  document.querySelectorAll('.plate-btn').forEach(function(b){
+    b.addEventListener('click',function(){var pic=b.querySelector('img');open(b.getAttribute('data-full'),pic?pic.alt:'');});
+  });
+  close.addEventListener('click',shut);
+  box.addEventListener('click',function(e){if(e.target===box)shut();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&box.classList.contains('open'))shut();});
+})();
+</script>
 </body>
 </html>

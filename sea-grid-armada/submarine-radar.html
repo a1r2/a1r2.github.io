@@ -1,441 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Submarine Radar - Strategic power-up for Sea Grid Armada. Locate the submarine quadrant and unlock 2-shot-per-turn mode.">
-    <title>Submarine Radar - Sea Grid Armada</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Submarine Radar — the earned power-up in Sea Grid Armada. When the sub is the last ship, reveal its quadrant and fire two shots a turn.">
+<title>Submarine Radar — Sea Grid Armada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --abyss:#081A24;--hull:#0C2531;--hull-2:#0A1F29;
+  --line:rgba(120,180,200,.07);--line-strong:rgba(120,180,200,.16);
+  --foam:#EAF1F2;--mist:#9DB4BC;--mist-dim:#5E7882;
+  --brass:#D7A94B;--brass-soft:rgba(215,169,75,.16);--sonar:#3FC7B4;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--foam);background:var(--abyss);line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:
+  radial-gradient(900px 600px at 88% -8%, rgba(63,199,180,.10), transparent 60%),
+  radial-gradient(1000px 700px at 4% 106%, rgba(215,169,75,.07), transparent 55%),
+  repeating-linear-gradient(0deg, var(--line) 0 1px, transparent 1px 64px),
+  repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 64px);}
+.wrap{position:relative;z-index:1;max-width:860px;margin:0 auto;padding:0 24px}
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #1a1a1a;
-            background: linear-gradient(135deg, #0f2858 0%, #1e3a72 100%);
-            min-height: 100vh;
-        }
+.statusbar{display:flex;justify-content:space-between;align-items:center;gap:16px;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);padding:20px 0;border-bottom:1px solid var(--line-strong);flex-wrap:wrap}
+.statusbar a{color:var(--mist);text-decoration:none;border-bottom:1px solid var(--line-strong);padding-bottom:2px;transition:color .2s,border-color .2s}
+.statusbar a:hover{color:var(--brass);border-color:var(--brass)}
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
+/* persistent sticky nav — identical across all pages */
+.topnav{position:sticky;top:0;z-index:40;background:rgba(8,26,36,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line-strong)}
+.nav-inner{max-width:860px;margin:0 auto;padding:13px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px 22px;flex-wrap:wrap;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+.nav-inner .brand{color:var(--foam);text-decoration:none;font-weight:500;letter-spacing:.2em;white-space:nowrap}
+.nav-inner .brand:hover{color:var(--brass)}
+.nav-links{display:flex;gap:20px;flex-wrap:wrap}
+.nav-links a{color:var(--mist);text-decoration:none;padding-bottom:3px;border-bottom:1px solid transparent;transition:color .2s,border-color .2s}
+.nav-links a:hover{color:var(--brass)}
+.nav-links a[aria-current="page"]{color:var(--brass);border-bottom-color:var(--brass)}
 
-        header {
-            padding: 40px 20px 30px;
-            text-align: center;
-            color: white;
-        }
+header.head{padding:60px 0 8px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.78rem;letter-spacing:.28em;text-transform:uppercase;color:var(--brass);margin-bottom:20px}
+header.head h1{font-family:"Saira Condensed",sans-serif;font-weight:800;text-transform:uppercase;font-size:clamp(2.6rem,7vw,4.8rem);line-height:.9;letter-spacing:-.5px}
+header.head h1 .alt{color:var(--brass)}
+.subtitle{margin-top:20px;font-size:clamp(1.05rem,1.7vw,1.25rem);color:var(--mist);max-width:46ch}
+.subtitle strong{color:var(--foam);font-weight:600}
 
-        h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 10px;
-            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-        }
+.section-head{display:flex;align-items:baseline;gap:18px;margin:0 0 26px;padding-top:52px;border-top:1px solid var(--line-strong)}
+.section-head .k{font-family:"IBM Plex Mono",monospace;font-size:.75rem;letter-spacing:.22em;color:var(--brass);text-transform:uppercase;white-space:nowrap}
+.section-head h2{font-family:"Saira Condensed",sans-serif;font-weight:700;text-transform:uppercase;font-size:clamp(1.6rem,3.4vw,2.2rem);letter-spacing:.5px}
+p.body{color:var(--mist);font-size:1.05rem;margin-bottom:18px}
+p.body strong{color:var(--foam);font-weight:600}
 
-        .subtitle {
-            font-size: 1.2rem;
-            color: rgba(255, 255, 255, 0.85);
-            font-weight: 300;
-        }
+.callout{background:linear-gradient(180deg,var(--hull) 0%,var(--hull-2) 100%);border:1px solid var(--line-strong);border-left:2px solid var(--sonar);padding:28px 30px;margin:6px 0 8px}
+.callout .kick{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--sonar);margin-bottom:12px}
+.callout h3{font-family:"Saira Condensed",sans-serif;font-weight:600;text-transform:uppercase;font-size:1.3rem;letter-spacing:.3px;margin-bottom:10px}
+.callout p{color:var(--mist);font-size:1.02rem}
+.callout p strong{color:var(--foam)}
 
-        .back-link {
-            display: inline-block;
-            margin-bottom: 20px;
-            color: rgba(255, 255, 255, 0.9);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
+.steps{display:grid;gap:14px}
+.step{display:grid;grid-template-columns:56px 1fr;gap:20px;background:var(--hull);border:1px solid var(--line-strong);border-left:2px solid var(--brass);padding:24px 28px;align-items:start}
+.step .num{font-family:"Saira Condensed",sans-serif;font-weight:700;font-size:2rem;color:var(--brass);line-height:.9}
+.step h4{font-family:"Saira Condensed",sans-serif;font-weight:600;text-transform:uppercase;font-size:1.2rem;letter-spacing:.3px;margin-bottom:8px}
+.step p{color:var(--mist);font-size:1rem}
 
-        .back-link:hover {
-            color: #ff6b35;
-        }
+.plate-solo{margin:6px 0;border:1px solid var(--line-strong);background:var(--hull)}
+.plate-solo button{display:block;width:100%;padding:0;border:0;background:none;cursor:pointer}
+.plate-solo img{display:block;width:100%;height:auto;max-height:70vh;object-fit:contain}
+.plate-cap{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mist-dim);margin-top:12px;text-align:center}
 
-        .content {
-            background: white;
-            border-radius: 16px;
-            padding: 50px 40px;
-            margin: 30px auto 60px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-        }
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.card{background:var(--hull);border:1px solid var(--line-strong);border-top:2px solid var(--brass);padding:24px 24px}
+.card h4{font-family:"Saira Condensed",sans-serif;font-weight:600;text-transform:uppercase;font-size:1.12rem;letter-spacing:.3px;margin-bottom:8px}
+.card p{color:var(--mist);font-size:.98rem}
 
-        h2 {
-            color: #1e3a72;
-            font-size: 2rem;
-            margin-bottom: 20px;
-            position: relative;
-            display: inline-block;
-        }
+.qa{padding:20px 0;border-bottom:1px solid var(--line-strong)}
+.qa:first-of-type{border-top:1px solid var(--line-strong)}
+.qa .q{color:var(--foam);font-family:"Saira Condensed",sans-serif;font-weight:600;text-transform:uppercase;letter-spacing:.3px;font-size:1.12rem;margin-bottom:8px}
+.qa .a{color:var(--mist);font-size:1rem}
 
-        h2::after {
-            content: '';
-            position: absolute;
-            bottom: -8px;
-            left: 0;
-            width: 60px;
-            height: 4px;
-            background: #ff6b35;
-            border-radius: 2px;
-        }
+.cta{background:var(--hull);border:1px solid var(--line-strong);border-top:2px solid var(--brass);padding:40px 34px;text-align:center;margin:48px 0 8px}
+.cta h3{font-family:"Saira Condensed",sans-serif;font-weight:700;text-transform:uppercase;font-size:clamp(1.5rem,3vw,2rem);letter-spacing:.4px;margin-bottom:12px}
+.cta p{color:var(--mist);margin-bottom:22px}
+.cta .btn{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;color:var(--abyss);background:var(--brass);padding:14px 30px;text-decoration:none;transition:transform .2s,box-shadow .2s}
+.cta .btn:hover{transform:translateY(-2px);box-shadow:0 12px 28px -10px rgba(215,169,75,.6)}
 
-        h3 {
-            color: #1e3a72;
-            font-size: 1.4rem;
-            margin-top: 35px;
-            margin-bottom: 15px;
-        }
+footer{border-top:1px solid var(--line-strong);margin-top:52px;padding:34px 0 64px;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mist-dim)}
+footer a{color:var(--mist);text-decoration:none;border-bottom:1px solid var(--line-strong);padding-bottom:2px;transition:color .2s,border-color .2s}
+footer a:hover{color:var(--brass);border-color:var(--brass)}
+footer .links a{margin-left:16px}
+.tm{color:var(--mist);font-weight:600}
 
-        p {
-            color: #555;
-            font-size: 1.05rem;
-            line-height: 1.8;
-            margin-bottom: 20px;
-        }
+.lightbox{position:fixed;inset:0;z-index:50;display:none;place-items:center;padding:5vh 5vw;background:rgba(4,12,17,.93);backdrop-filter:blur(4px)}
+.lightbox.open{display:grid}
+.lightbox img{max-width:100%;max-height:90vh;width:auto;border:1px solid var(--line-strong);box-shadow:0 30px 80px -20px #000}
+.lightbox .x{position:absolute;top:18px;right:22px;font-family:"IBM Plex Mono",monospace;font-size:1.3rem;color:var(--foam);background:rgba(12,37,49,.7);border:1px solid var(--line-strong);width:46px;height:46px;border-radius:50%;cursor:pointer;transition:color .2s,border-color .2s}
+.lightbox .x:hover,.lightbox .x:focus-visible{color:var(--brass);border-color:var(--brass);outline:none}
 
-        .highlight-box {
-            background: linear-gradient(135deg, #ff6b35 0%, #f7941d 100%);
-            color: white;
-            padding: 30px;
-            border-radius: 12px;
-            margin: 30px 0;
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
-        }
+a:focus-visible,button:focus-visible{outline:2px solid var(--sonar);outline-offset:3px}
 
-        .highlight-box h3 {
-            color: white;
-            margin-top: 0;
-        }
-
-        .highlight-box p {
-            color: rgba(255, 255, 255, 0.95);
-        }
-
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 25px;
-            margin: 30px 0;
-        }
-
-        .feature-card {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 12px;
-            border-left: 4px solid #ff6b35;
-        }
-
-        .feature-card h4 {
-            color: #1e3a72;
-            font-size: 1.1rem;
-            margin-bottom: 10px;
-        }
-
-        .feature-card p {
-            font-size: 0.95rem;
-            margin-bottom: 0;
-        }
-
-        .steps {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 30px;
-            margin: 30px 0;
-        }
-
-        .step {
-            display: flex;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-
-        .step:last-child {
-            margin-bottom: 0;
-        }
-
-        .step-number {
-            background: #ff6b35;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            margin-right: 20px;
-        }
-
-        .step-content h4 {
-            color: #1e3a72;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
-        }
-
-        .step-content p {
-            color: #666;
-            font-size: 0.95rem;
-            margin-bottom: 0;
-        }
-
-        .visual-demo {
-            background: linear-gradient(135deg, #1e3a72 0%, #2a5298 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 12px;
-            margin: 40px 0;
-            text-align: center;
-        }
-
-        .grid-preview {
-            display: inline-block;
-            margin: 20px auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(5, 40px);
-            grid-template-rows: repeat(5, 40px);
-            gap: 2px;
-            margin: 0 auto;
-        }
-
-        .cell {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 4px;
-        }
-
-        .cell.highlight {
-            background: rgba(255, 107, 53, 0.8);
-            border: 2px solid #ff6b35;
-            box-shadow: 0 0 15px rgba(255, 107, 53, 0.6);
-        }
-
-        .quadrant-label {
-            font-size: 0.9rem;
-            margin-top: 10px;
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .cta-box {
-            background: #1e3a72;
-            color: white;
-            padding: 35px;
-            border-radius: 12px;
-            text-align: center;
-            margin: 40px 0 20px;
-        }
-
-        .cta-box h3 {
-            color: white;
-            margin-top: 0;
-            font-size: 1.6rem;
-        }
-
-        .cta-box p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.05rem;
-        }
-
-        .btn-primary {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 14px 35px;
-            background: #ff6b35;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background: #f7941d;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
-        }
-
-        footer {
-            background: #0f2858;
-            color: rgba(255, 255, 255, 0.8);
-            padding: 30px 20px;
-            text-align: center;
-        }
-
-        footer a {
-            color: #4a9eff;
-            text-decoration: none;
-        }
-
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-
-            .content {
-                padding: 30px 25px;
-            }
-
-            .feature-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .grid {
-                grid-template-columns: repeat(5, 35px);
-                grid-template-rows: repeat(5, 35px);
-            }
-        }
-    </style>
+@media (max-width:680px){ .cards{grid-template-columns:1fr} .step{grid-template-columns:1fr;gap:6px} }
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+</style>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <a href="index.html" class="back-link">← Back to Sea Grid Armada</a>
-            <h1>📡 Submarine Radar</h1>
-            <p class="subtitle">Your secret weapon when the sub is the last ship standing</p>
-        </div>
-    </header>
+<nav class="topnav"><div class="nav-inner">
+  <a class="brand" href="index.html">Sea Grid Armada</a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="ingenuity-in-gameplay.html">Doctrine</a>
+    <a href="submarine-radar.html" aria-current="page">Radar</a>
+    <a href="privacy-policy.html">Privacy</a>
+  </div>
+</div></nav>
+<div class="wrap">
 
-    <div class="content container">
-        <h2>What Is Submarine Radar?</h2>
-        <p>
-            Submarine Radar is a <strong>strategic power-up</strong> that activates when your opponent's submarine is the only remaining ship. 
-            It's the ultimate tool for finishing the match quickly and decisively—but you'll need to use it wisely.
-        </p>
+  <header class="head">
+    <div class="eyebrow">Field Manual · File 003 · Endgame</div>
+    <h1>Submarine <span class="alt">Radar</span></h1>
+    <p class="subtitle">Your earned weapon for when the sub is the <strong>last ship standing</strong> — reveal its quadrant, then fire two shots a turn.</p>
+  </header>
 
-        <div class="highlight-box">
-            <h3>💡 Why Radar Changes Everything</h3>
-            <p>
-                The submarine is the smallest, sneakiest ship—just 1 cell. When it's isolated, finding it can take 10-20+ shots of blind guessing. 
-                <strong>Radar cuts that time in half</strong> by revealing which quadrant the submarine is hiding in, then unlocking 
-                <strong>2 shots per turn</strong> for the rest of the match. Watch a quick ad at the start to unlock this game-changer.
-            </p>
-        </div>
-
-        <h3>🎯 How It Works</h3>
-        <div class="steps">
-            <div class="step">
-                <div class="step-number">1</div>
-                <div class="step-content">
-                    <h4>Watch Ad Before Match</h4>
-                    <p>At the start of each game, you'll be asked if you want to watch a short ad to unlock radar for that match.</p>
-                </div>
-            </div>
-
-            <div class="step">
-                <div class="step-number">2</div>
-                <div class="step-content">
-                    <h4>Submarine Becomes Last Ship</h4>
-                    <p>When you've sunk all enemy ships except the submarine, the radar feature automatically activates (if unlocked).</p>
-                </div>
-            </div>
-
-            <div class="step">
-                <div class="step-number">3</div>
-                <div class="step-content">
-                    <h4>Quadrant Revealed + 2-Shot Mode</h4>
-                    <p>The correct quadrant flashes orange 3 times, revealing where the submarine is hiding. You also get <strong>2 shots per turn</strong> instead of 1.</p>
-                </div>
-            </div>
-
-            <div class="step">
-                <div class="step-number">4</div>
-                <div class="step-content">
-                    <h4>Hunt and Win</h4>
-                    <p>Narrow your search to 25 cells (one quadrant). With 2 shots per turn, you'll find the sub 2× faster.</p>
-                </div>
-            </div>
-        </div>
-
-        <h3>🗺️ Visual Example: Quadrant Reveal</h3>
-        <div class="visual-demo">
-            <p style="margin-bottom: 15px;">The 10×10 grid is divided into 4 quadrants. Radar reveals one:</p>
-            <div style="text-align: center; margin: 20px 0;">
-                <img src="screenshots/iphone/iphone-6.png" alt="Submarine Radar quadrant reveal in-game" style="max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);">
-                <p style="margin-top: 15px; font-size: 0.95rem; color: rgba(255, 255, 255, 0.85);">🔥 Orange quadrant = Submarine is here (25 cells instead of 100)</p>
-            </div>
-        </div>
-
-        <h3>⚡ Why Players Love Radar</h3>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <h4>🚀 Faster Wins</h4>
-                <p>Cut endgame time in half. No more endless blind guessing—finish strong.</p>
-            </div>
-
-            <div class="feature-card">
-                <h4>😌 Reduces Frustration</h4>
-                <p>The sub endgame can feel like luck. Radar gives you control back.</p>
-            </div>
-
-            <div class="feature-card">
-                <h4>🎯 Satisfying Payoff</h4>
-                <p>That orange flash + 2-shot mode feels like unlocking a superpower.</p>
-            </div>
-        </div>
-
-        <h3>🎬 How to Unlock Radar</h3>
-        <p>
-            Submarine Radar is <strong>free</strong>—unlocked by watching a short video ad at the start of each match.
-        </p>
-        <div class="feature-grid">
-            <div class="feature-card">
-                <h4>📺 Watch One Ad</h4>
-                <p>Before the game starts, choose to watch a 15-30 second video ad to unlock radar for that match.</p>
-            </div>
-
-            <div class="feature-card">
-                <h4>🆓 Completely Free</h4>
-                <p>No in-app purchases required. Every player has equal access to radar by watching ads.</p>
-            </div>
-
-            <div class="feature-card">
-                <h4>♾️ Lasts the Whole Match</h4>
-                <p>Once unlocked, radar stays available for the entire game—activate it when the submarine is the last ship.</p>
-            </div>
-        </div>
-
-        <h3>🤔 Common Questions</h3>
-        <p><strong>Q: Do I have to watch an ad every match?</strong><br>
-        No—you choose at the start of each game. Skip the ad and play without radar, or watch it to unlock radar for that match.</p>
-
-        <p><strong>Q: Can I use radar if the submarine isn't the last ship?</strong><br>
-        No—radar only activates when the submarine is isolated. This keeps it balanced and strategic.</p>
-
-        <p><strong>Q: Does my opponent know I unlocked radar?</strong><br>
-        No—radar is your secret. They won't see the quadrant flash or know you have 2-shot mode.</p>
-
-        <p><strong>Q: What if I don't watch the ad?</strong><br>
-        You can still win without radar—it just takes longer to find the submarine. The game plays normally with 1 shot per turn.</p>
-
-        <p><strong>Q: Does 2-shot mode work with the 3-miss rule?</strong><br>
-        No—radar mode replaces the 3-miss rule with a 2-shot-per-turn limit. Your turn ends after 2 shots, whether you hit or miss. Both shots count toward the limit.</p>
-
-        <div class="cta-box">
-            <h3>Ready to Dominate the Endgame?</h3>
-            <p>Download Sea Grid Armada and experience the strategic power of Submarine Radar.</p>
-            <a href="index.html" class="btn-primary">Back to Main Page</a>
-        </div>
+  <section>
+    <div class="section-head"><span class="k">// Briefing</span><h2>What it is</h2></div>
+    <p class="body">Submarine Radar is a <strong>power-up you earn</strong>, not a purchase. It only comes into play when your opponent's submarine is the only ship left — the moment the endgame usually turns into blind guessing.</p>
+    <div class="callout">
+      <div class="kick">// Why it matters</div>
+      <h3>The sub is one cell of ocean</h3>
+      <p>Isolated, the submarine can take 10–20+ shots of pure guessing to find. Radar cuts that down: it reveals <strong>which quadrant</strong> the sub is hiding in, then unlocks <strong>two shots per turn</strong> for the rest of the match. Earn it by watching one short ad at the start of the game.</p>
     </div>
+  </section>
 
-    <footer>
-        <div class="container">
-            <p>&copy; 2026 A1R2. All rights reserved.</p>
-            <p style="margin-top: 10px; font-size: 0.9rem;">Sea Grid Armada is a trademark of A1R2.</p>
-        </div>
-    </footer>
+  <section>
+    <div class="section-head"><span class="k">// Sequence</span><h2>How it works</h2></div>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><div><h4>Watch an ad before the match</h4><p>At the start of a game you're asked if you want to watch a short ad to arm radar for that match. Skip it and play normally, or watch it to bank the power-up.</p></div></div>
+      <div class="step"><div class="num">2</div><div><h4>Sink every ship but the sub</h4><p>Radar stays dormant until the submarine is the last enemy ship. Sink it earlier and the radar simply goes unused — no waste, no penalty.</p></div></div>
+      <div class="step"><div class="num">3</div><div><h4>The quadrant lights up</h4><p>The correct quadrant flashes three times, narrowing the hunt from 100 cells to 25 — and you switch to <strong>two shots per turn</strong>.</p></div></div>
+      <div class="step"><div class="num">4</div><div><h4>Close it out</h4><p>With the search cut to a single quadrant and double the shots, you corner the sub roughly twice as fast. Finish strong.</p></div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="k">// Visual</span><h2>The quadrant reveal</h2></div>
+    <p class="body">The 10×10 sector is split into four quadrants. Radar lights the one the sub is hiding in — here, the lower-right block glows while the last ship is cornered.</p>
+    <figure class="plate-solo">
+      <button type="button" class="plate-btn" data-full="screenshots/web/iphone/06-radar-active.png" aria-label="Expand: radar active reveal">
+        <img src="screenshots/web/iphone/06-radar-active.png" alt="Radar active — the submarine's quadrant glowing on the grid" loading="lazy">
+      </button>
+    </figure>
+    <p class="plate-cap">Radar active · sub cornered to one quadrant · 2 shots per turn</p>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="k">// Payoff</span><h2>Why players love it</h2></div>
+    <div class="cards">
+      <div class="card"><h4>Faster wins</h4><p>Cut the endgame in half. No more endless blind guessing — close it out.</p></div>
+      <div class="card"><h4>Less frustration</h4><p>The sub endgame can feel like luck. Radar hands you back control.</p></div>
+      <div class="card"><h4>A real payoff</h4><p>The quadrant flash and 2-shot mode feel like flipping on a superpower.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="k">// Access</span><h2>How to earn it</h2></div>
+    <div class="cards">
+      <div class="card"><h4>Watch one ad</h4><p>Before the match, choose to watch a short video ad to arm radar for that game.</p></div>
+      <div class="card"><h4>Always free</h4><p>No in-app purchases. Every player has the same access by watching ads.</p></div>
+      <div class="card"><h4>Lasts the match</h4><p>Once armed, radar is available the whole game — it fires when the sub is last.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head"><span class="k">// Questions</span><h2>Common questions</h2></div>
+    <div class="qa"><div class="q">Do I have to watch an ad every match?</div><div class="a">No — you choose at the start of each game. Skip it and play without radar, or watch it to arm radar for that match.</div></div>
+    <div class="qa"><div class="q">Can I use radar before the sub is last?</div><div class="a">No — radar only activates once the submarine is isolated. That's what keeps it balanced.</div></div>
+    <div class="qa"><div class="q">Does my opponent know I armed radar?</div><div class="a">No — it's your secret. They don't see the quadrant flash or know you're on 2-shot mode.</div></div>
+    <div class="qa"><div class="q">How does 2-shot mode interact with the three-miss rule?</div><div class="a">In radar mode the three-miss rule is replaced by a two-shots-per-turn limit — your turn ends after two shots, hit or miss.</div></div>
+  </section>
+
+  <div class="cta">
+    <h3>Ready to hunt the last ship?</h3>
+    <p>Sea Grid Armada is coming soon to the App Store.</p>
+    <a href="index.html" class="btn">Back to the main page</a>
+  </div>
+
+  <footer>
+    <span class="tm">Sea Grid Armada™ · © 2026 A1R2</span>
+    <span class="links"><a href="index.html">Home</a><a href="ingenuity-in-gameplay.html">Doctrine</a><a href="privacy-policy.html">Privacy</a><a href="mailto:a1r2.adriano@gmail.com">Contact</a></span>
+  </footer>
+
+</div>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged screenshot">
+  <button type="button" class="x" id="lightbox-close" aria-label="Close">✕</button>
+  <img id="lightbox-img" src="" alt="">
+</div>
+
+<script>
+(function(){
+  var box=document.getElementById('lightbox'),img=document.getElementById('lightbox-img'),
+      close=document.getElementById('lightbox-close'),last=null;
+  if(!box)return;
+  function open(src,alt){img.src=src;img.alt=alt||'';box.classList.add('open');last=document.activeElement;close.focus();}
+  function shut(){box.classList.remove('open');img.src='';if(last&&last.focus)last.focus();}
+  document.querySelectorAll('.plate-btn').forEach(function(b){
+    b.addEventListener('click',function(){var pic=b.querySelector('img');open(b.getAttribute('data-full'),pic?pic.alt:'');});
+  });
+  close.addEventListener('click',shut);
+  box.addEventListener('click',function(e){if(e.target===box)shut();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&box.classList.contains('open'))shut();});
+})();
+</script>
 </body>
 </html>
