@@ -1,16 +1,16 @@
-# ABCPress LLC - Legal Documents
+# A1R2 — Legal Documents
 
-Public hosting for privacy policies and terms of service for ABCPress LLC mobile applications.
+Public hosting for privacy policies and terms of service for A1R2 mobile applications.
 
-**Developer:** A1R2  
-**Owner:** ABCPress LLC
+**Developer:** A1R2
 
 ## 📱 Apps
 
-### Sea Grid Tactics
-- **Privacy Policy:** [View](https://a1r2.github.io/sea-grid-tactics/privacy-policy.html)
+### Sea Grid Armada
+- **Website:** [View](https://a1r2.github.io/sea-grid-armada/)
+- **Privacy Policy:** [View](https://a1r2.github.io/sea-grid-armada/privacy-policy.html)
 - Platform: iOS
-- Description: Multiplayer naval combat game
+- Description: Local multiplayer naval combat game
 
 ### medReminder
 - **Privacy Policy:** Coming soon
@@ -31,15 +31,15 @@ a1r2.github.io/
 ├── index.html                          # Homepage with links to all documents
 ├── shared/
 │   └── styles.css                      # Shared CSS styling
-├── sea-grid-tactics/
+├── sea-grid-armada/
+│   ├── index.html
 │   ├── privacy-policy.html
-│   └── terms-of-service.html
+│   ├── ingenuity-in-gameplay.html
+│   └── submarine-radar.html
 ├── medreminder/
-│   ├── privacy-policy.html
-│   └── terms-of-service.html
+│   └── privacy-policy.html
 └── gigpaid/
-    ├── privacy-policy.html
-    └── terms-of-service.html
+    └── privacy-policy.html
 ```
 
 ## 🔗 URLs
@@ -51,7 +51,7 @@ https://a1r2.github.io/{app-name}/{document}.html
 
 Example:
 ```
-https://a1r2.github.io/sea-grid-tactics/privacy-policy.html
+https://a1r2.github.io/sea-grid-armada/privacy-policy.html
 ```
 
 ---
@@ -68,10 +68,9 @@ https://a1r2.github.io/sea-grid-tactics/privacy-policy.html
 
 ## ⚖️ License
 
-All legal documents are © 2026 ABCPress LLC. All rights reserved.
+All legal documents are © 2026 A1R2. All rights reserved.
 
 ## 📧 Contact
 
-- **Email:** onairda.somar@gmail.com
+- **Email:** a1r2.adriano@gmail.com
 - **Developer:** A1R2
-- **Owner:** ABCPress LLC
