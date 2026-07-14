@@ -48,6 +48,12 @@ body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;bac
 .lede strong{color:var(--foam);font-weight:600}
 .chip{display:inline-flex;align-items:center;gap:10px;margin-top:28px;font-family:"IBM Plex Mono",monospace;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--foam);border:1px solid var(--brass-soft);background:var(--brass-soft);padding:11px 18px}
 .chip::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--brass)}
+.cta-row{display:flex;align-items:center;gap:16px 20px;flex-wrap:wrap;margin-top:28px}
+.cta{display:inline-flex;align-items:center;gap:12px;background:var(--brass);color:var(--abyss);font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:.82rem;letter-spacing:.14em;text-transform:uppercase;padding:15px 26px;text-decoration:none;border:1px solid var(--brass);transition:transform .2s ease,box-shadow .2s ease}
+.cta:hover{transform:translateY(-2px);box-shadow:0 14px 30px -12px rgba(215,169,75,.6)}
+.cta:focus-visible{outline:2px solid var(--sonar);outline-offset:3px}
+.cta svg{width:17px;height:17px;fill:currentColor;flex:none}
+.cta-note{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mist)}
 
 .insignia{position:relative;width:100%;max-width:320px;margin:0 auto;aspect-ratio:1;display:grid;place-items:center;border:1px solid var(--line-strong);background:var(--hull-2);box-shadow:inset 0 0 60px rgba(0,0,0,.5)}
 .insignia img{width:62%;height:auto;border-radius:24%;box-shadow:0 18px 50px -12px rgba(0,0,0,.8)}
@@ -149,7 +155,13 @@ a:focus-visible,.card:focus-visible{outline:2px solid var(--sonar);outline-offse
       <div class="eyebrow">Naval combat · iOS · Local 1v1</div>
       <h1>Sea Grid<span class="alt">Armada</span></h1>
       <p class="lede">Two-player naval combat, reimagined for mobile. Read the fog, <strong>commit every shot</strong>, and hunt the last ship — all on the device in your hand, no internet required.</p>
-      <div class="chip">Coming soon to the App Store</div>
+      <div class="cta-row">
+        <a class="cta" href="https://apps.apple.com/app/id6785679317" target="_blank" rel="noopener">
+          <svg viewBox="0 0 384 512" aria-hidden="true"><path d="M318.7 268.7c-.2-36.7 16.4-64.4 50-84.8-18.8-26.9-47.2-41.7-84.7-44.6-35.5-2.8-74.3 20.7-88.5 20.7-15 0-49.4-19.7-76.4-19.7C63.3 141.2 4 184.8 4 273.5q0 39.3 14.4 81.2c12.8 36.7 59 126.7 107.2 125.2 25.2-.6 43-17.9 75.8-17.9 31.8 0 48.3 17.9 76.4 17.9 48.6-.7 90.4-82.5 102.6-119.3-65.2-30.7-61.7-90-61.7-91.9zm-56.6-164.2c27.3-32.4 24.8-61.9 24-72.5-24.1 1.4-52 16.4-67.9 34.9-17.5 19.8-27.8 44.3-25.6 71.9 26.1 2 49.9-11.4 69.5-34.3z"/></svg>
+          Download on the App Store
+        </a>
+        <span class="cta-note">Free · iPhone &amp; iPad</span>
+      </div>
     </div>
     <div class="insignia" aria-hidden="true">
       <span class="tick tl">A·1</span><span class="tick tr">J·1</span><span class="tick bl">A·10</span><span class="tick br">J·10</span>
@@ -158,25 +170,25 @@ a:focus-visible,.card:focus-visible{outline:2px solid var(--sonar);outline-offse
     </div>
   </header>
 
-  <div class="readout">
-    <div><div class="n">10×10</div><div class="l">Sector grid · 6-ship fleet</div></div>
-    <div><div class="n">0</div><div class="l">Servers · accounts · internet</div></div>
-    <div><div class="n">100%</div><div class="l">Offline after download</div></div>
-  </div>
-
   <section class="muster">
     <div class="section-head"><span class="k">// Muster point</span><h2>Play it anywhere</h2></div>
     <div class="solari-wrap">
       <div class="solari-label">Deploy location</div>
       <div class="solari" id="solari" aria-hidden="true"></div>
     </div>
-    <p class="solari-cap"><b>Two devices, about a minute to set up.</b> Grab anyone nearby who has the app and challenge them to a quick Armada.</p>
+    <p class="solari-cap"><b>Two devices, about a minute to set up.</b> Grab anyone nearby who has the app and challenge them to a quick Armada — no internet, no Wi-Fi needed.</p>
   </section>
+
+  <div class="readout">
+    <div><div class="n">10×10</div><div class="l">Sector grid · 6-ship fleet</div></div>
+    <div><div class="n">0</div><div class="l">Servers · accounts · internet</div></div>
+    <div><div class="n">100%</div><div class="l">Offline after download</div></div>
+  </div>
 
   <section>
     <div class="section-head"><span class="k">// Capabilities</span><h2>Why you'll love it</h2></div>
     <div class="cards">
-      <div class="card"><div class="kick">// tempo</div><h3>Three-miss turns</h3><p>Keep firing while you land hits. Miss three in a row and the turn passes to your opponent. Accuracy sets the pace.</p></div>
+      <div class="card"><div class="kick">// tempo</div><h3>Three-miss turns</h3><p>Keep firing as long as you keep landing hits — your turn only ends once you've missed three times. Every shot counts, and accuracy sets the pace.</p></div>
       <div class="card"><div class="kick">// link</div><h3>Local multiplayer</h3><p>Find a nearby player over Bluetooth or local Wi-Fi. No internet, no accounts, no servers — ever.</p></div>
       <div class="card"><div class="kick">// range</div><h3>Precision targeting</h3><p>A draggable D-pad places your crosshair; a FIRE button commits the shot. Good friction — no fat-finger misfires.</p></div>
       <div class="card"><div class="kick">// radar</div><h3>Submarine radar</h3><p>Earn radar by watching a short ad. When the sub is the last ship, its quadrant lights up and you fire two shots a turn.</p><a href="submarine-radar.html">Learn more →</a></div>
